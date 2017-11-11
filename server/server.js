@@ -39,14 +39,38 @@ io.on('connection', function(socket){
 	socket.on('createMessage', function(message) {
 		//console.log('createEmail', newEmail );
 		console.log('createMessage', message );
-		io.emit('newMessage',
-		{
-			from: message.from,
-			text: message.text,
-			createdAt: new Date().getTime()
-		})
+		});
+		// io.emit('newMessage',
+		// {
+		// 	from: message.from,
+		// 	text: message.text,
+		// 	createdAt: new Date().getTime()
+		// })
 
-	});
+
+		// socket.broadcast.emit('newMessage', {
+
+		// 	from : message.from,
+		// 	text : message.text,
+		// 	createdAt : new Date().getTime()
+		// });
+
+
+		socket.emit('newMessage', {
+
+			from : 'Admin',
+			text : 'welcome to the chat app',
+			createdAt : new Date().getTime()
+		});
+
+		socket.broadcast.emit('newMessage', {
+
+			from : 'Admin',
+			text : 'New user joined',
+			createdAt : new Date().getTime()
+		});
+
+	
 
 	socket.on('disconnect', function(){
 			console.log('User was Disconnected ');
@@ -58,7 +82,7 @@ io.on('connection', function(socket){
 
 
 server.listen(port, function(){
-	console.log('Server is up on port' + port );
+	console.log('Server is up on port ' + port );
 
 });
 
