@@ -10,10 +10,10 @@ var socket = io();
 	// 	text : 'Hey. This is funmi. '
 	// });
 
-	socket.emit('createMessage', {
-		from : 'Andrew',
-		text : 'Yup, that works for me'
-	});
+	// socket.emit('createMessage', {
+	// 	from : 'Andrew',
+	// 	text : 'Yup, that works for me'
+	// });
 
 
 		socket.on('disconnect', function(){
