@@ -37,10 +37,16 @@ io.on('connection', function(socket){
 	// 	console.log('createEmail', newEmail );
 	// });
 
-	socket.on('createMessage', function(message) {
+	 socket.emit('newMessage',  generateMessage('Admin', 'welcome to the chat app' )  );
+
+	 socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined' ) ) ;
+
+	socket.on('createMessage', function(message, callback) {
 		//console.log('createEmail', newEmail );
 		console.log('createMessage', message );
 		
+
+
 
 		io.emit('newMessage', generateMessage(message.from,  message.text  )  );
 		// {
@@ -58,7 +64,7 @@ io.on('connection', function(socket){
 		// });
 
 
-		 socket.emit('newMessage',  generateMessage('Admin', 'welcome to the chat app' )  );
+		
 		 	//{
 
 		// 	from : 'Admin',
@@ -67,7 +73,7 @@ io.on('connection', function(socket){
 		// }
 		//);
 
-		socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined' ) ) ;
+		
 		// {
 
 		// 	from : 'Admin',
@@ -75,6 +81,7 @@ io.on('connection', function(socket){
 		// 	createdAt : new Date().getTime()
 
 		// });
+		callback('This is from the server');
 		});
 
 	
