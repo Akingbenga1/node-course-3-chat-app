@@ -8,4 +8,19 @@ r.createdAt = new Date().getTime();
 	 
 };
 
-module.exports = {generateMessage : generateMessage};
+
+var generateLocationMessage = function(from, latitude, longitude){
+
+var r = {};
+r.from = from;
+r.url = 'https://www.google.com/maps?q=' + latitude + ',' + longitude;
+r.createdAt = new Date().getTime();
+	return  r;
+	 
+};
+module.exports = {
+
+	generateMessage : generateMessage,
+	generateLocationMessage : generateLocationMessage
+
+};

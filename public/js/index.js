@@ -20,7 +20,7 @@ var socket = io();
 			console.log('Disconnected from server');
 		});
 
-		// socket.on('newEmail', function(email){
+		// socket.on('newEmail', function (email){
 		// 	console.log('new Email', email);
 
 		// }); 
@@ -30,6 +30,18 @@ var socket = io();
 			 console.log('new Message ', message);
 			 var li = jQuery('<li></li>');
 			 li.text(message.from + ':' + message.text);
+			 jQuery('#messages').append(li);
+		}); 
+
+
+			socket.on('newLocationMessage', function(message){
+			 // jQuery('#messages').empty();
+			 console.log('new Message ', message);
+			 var li = jQuery('<li></li>');
+			 var a = jQuery('<a target="_blank">My Current Location<a>');
+			 li.text(message.from + ':' );
+			 a.attr('href',  message.url );
+			 li.append(a);
 			 jQuery('#messages').append(li);
 		}); 
 
@@ -57,4 +69,39 @@ var socket = io();
 			}, function(){
 
 			});
+		});
+
+
+		var locationButton  = jQuery('#send-location');
+
+		locationButton.on('click', function(e)
+		{
+			e.preventDefault();
+			if(!navigator.geolocation)
+			{
+				return alert("Geolocation not supported by your brower. ");
+			}
+
+			navigator.geolocation.getCurrentPosition(function(position)
+			{
+					console.log(position);
+					var real_latitude =  position.coords.latitude ? position.coords.latitude : 0;
+					var real_longitude =  position.coords.longitude ? position.coords.longitude  : 0;
+					socket.emit('createLocationMessage', {
+						latitude: real_latitude,
+						longitude:  real_longitude
+					});
+
+			}, function(e){
+
+				alert('Unable to fetch location.');
+				var real_latitude =   0;
+					var real_longitude =  0;
+					socket.emit('createLocationMessage', {
+						latitude: real_latitude,
+						longitude:  real_longitude
+					});
+
+			});
+
 		});
