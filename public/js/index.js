@@ -62,12 +62,14 @@ var socket = io();
 		{
 			e.preventDefault();
 
+			var messageTextBox =  jQuery('[name=message]'); 
+
 			socket.emit('createMessage', {
 
 				from : 'User',
-				text: jQuery('[name=message]').val()
+				text: messageTextBox.val()
 			}, function(){
-
+						messageTextBox.val('');
 			});
 		});
 
@@ -82,6 +84,8 @@ var socket = io();
 				return alert("Geolocation not supported by your brower. ");
 			}
 
+			locationButton.attr('disabled',  'disabled').text('Sending location...');
+
 			navigator.geolocation.getCurrentPosition(function(position)
 			{
 					console.log(position);
@@ -91,10 +95,12 @@ var socket = io();
 						latitude: real_latitude,
 						longitude:  real_longitude
 					});
+					locationButton.removeAttr('disabled').text('Send location');
 
 			}, function(e){
 
 				alert('Unable to fetch location.');
+				locationButton.removeAttr('disabled').text('Send location');
 				var real_latitude =   0;
 					var real_longitude =  0;
 					socket.emit('createLocationMessage', {

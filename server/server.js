@@ -86,7 +86,7 @@ io.on('connection', function(socket){
 		// 	createdAt : new Date().getTime()
 
 		// });
-		callback('This is from the server');
+		callback(' ');
 		});
 
 	
