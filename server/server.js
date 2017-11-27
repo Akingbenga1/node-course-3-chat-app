@@ -44,7 +44,16 @@ io.on('connection', function(socket){
 	 // socket.emit('newMes sage',  generateMessage('Admin', 'welcome to the chat app' )  );
 
 	 socket.on('createLocationMessage', function(coords){
-	 		io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude , coords.longitude))
+
+	 	var user = users.getUser(socket.io);
+
+		if(user )
+		{
+			//io.to(user.room).emit('newMessage', generateMessage(user.name,  message.text  )  );
+			io.to(user.room).emit('newLocationMessage', generateLocationMessage(user.name, coords.latitude , coords.longitude));
+		}
+		
+	 		
 	 });
 
 	 // socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined' ) ) ;
@@ -79,12 +88,17 @@ io.on('connection', function(socket){
 
 	socket.on('createMessage', function(message, callback) {
 		//console.log('createEmail', newEmail );
-		console.log('createMessage', message );
+		//console.log('createMessage', message );
+		var user = users.getUser(socket.io);
+
+		if(user && isRealString(message.text))
+		{
+			io.to(user.room).emit('newMessage', generateMessage(user.name,  message.text  )  );
+		}
 		
 
 
-
-		io.emit('newMessage', generateMessage(message.from,  message.text  )  );
+		
 		// {
 		// 	from: message.from,
 		// 	text: message.text,
@@ -117,7 +131,7 @@ io.on('connection', function(socket){
 		// 	createdAt : new Date().getTime()
 
 		// });
-		callback(' ');
+		callback();
 		});
 
 	

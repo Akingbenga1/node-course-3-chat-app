@@ -59,7 +59,7 @@ function scrollToButtom()
 
 		socket.on('disconnect', function(){
 			console.log('Disconnected from server');
-		});
+		}); 
 
 		// socket.on('newEmail', function (email){
 		// 	console.log('new Email', email);
@@ -149,7 +149,7 @@ function scrollToButtom()
 
 			socket.emit('createMessage', {
 
-				from : 'User',
+				//from : 'User',
 				text: messageTextBox.val()
 			}, function(){
 						messageTextBox.val('');
